@@ -1,0 +1,16 @@
+{
+    "menu_description": "",
+    "site_title": "Yaparcoyo",
+    "site_description": "[ Screensets en català ]",
+    "menu_bg_color": "#0062ff",
+    "menu_bg_color_hover": "#1d87ff2a",
+    "menu_text_color": "#FFFFFF",
+    "text_color": "#7a7a7a",
+    "background_color": "#E9E9E9",
+    "menu_pic": "yaparcoyo.png",
+    "main_url": "/",
+    "main_pic": "yaparcoyo.png",
+    "raas_prefix": "Valet",
+    "lang": "ca",
+    "apiKey": "4_Hqe8RIL5z3qMDiAMVFwSIQ"
+}

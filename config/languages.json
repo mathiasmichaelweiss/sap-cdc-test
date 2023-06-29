@@ -1,0 +1,19 @@
+{
+    "languages": [
+        {
+            "label": "Catalan",
+            "key": "ca",
+            "flag": "es-ca"
+        },
+        {
+            "label": "English (default)",
+            "key": "en",
+            "flag": "gb"
+        },
+        {
+            "label": "Spanish",
+            "key": "es",
+            "flag": "es"
+        }
+    ]
+}
