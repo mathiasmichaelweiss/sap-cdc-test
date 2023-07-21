@@ -163,7 +163,7 @@ function logoutWithRaaS(callBackFunction) {
 
     /* Actions associated to events */
     gigya.accounts.addEventHandlers({
-        onLogout: onLogout
+        onLogout
     });
 
     /* After the logout, we show the register screen again (as in the beginning) */
@@ -194,36 +194,16 @@ function onBeforeSubmit(event) {
  */
 function onSubmit(event) { }
 
-/** **************************************************/
-//       GIGYA GLOBAL EVENT FUNCTIONS
-/** **************************************************/
-/**
- * This event is fired whenever a user successfully logs in to Gigya.
- * @param  {object} response Gigya response with the results of the login operation
- */
-function onLogin(response) {
-    log("4 - On Login!", "GET ACCOUNT INFO");
-    console.log(response);
-    // Get the user information, redirecting if needed to the logged in page
-    if (response.profile !== null) {
-        gigya.accounts.getAccountInfo({ include: 'emails, profile, data, preferences', callback: initPage });
-    }
-}
-
 /**
  * This event is fired whenever a user successfully logs out to Gigya.
  * @param  {object} response Gigya response with the results of the logout operation
  */
 function onLogout(response) {
-
     // Shows the unlogged HTML of the page
     if (response.eventName === 'logout') {
         log('X. User has logged out', "LOG OUT");
-        hideModal("logging-out");
-        // gotoHome();
+        gotoHome();
     } else {
         alert('Error :' + response.errorMessage);
     }
 }
-
-/** **************************************************/

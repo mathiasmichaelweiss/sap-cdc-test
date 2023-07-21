@@ -140,9 +140,19 @@
 			<div class="account-page">
 				<div class="profile">
 					<div class="profile-img">
-						<img src="assets/img/image-preview-icon-picture-placeholder-vector-31284806.jpg">
-						<h2>...</h2>
-						<p></p>
+						<form action="">
+							<img src="assets/img/image-preview-icon-picture-placeholder-vector-31284806.jpg">
+							<input 
+								type="file"
+								accept="image/png, image/gif, image/jpeg"
+								name="profilePhoto"
+								aria-hidden="true"
+								tabindex="-1"
+								class="input-file"
+							>
+							<h2>...</h2>
+							<p></p>
+						</form>
 					</div>
 					<ul>
 						<li><a href="account.html" class="active">Account <span>></span></a></li>
@@ -180,13 +190,6 @@
 										<option selected>---Select a Country---</option>
 									</select>
 								</div>
-								<!-- <div class="form-group">
-									<label>City</label>
-									<select id="city" name="city">
-										<option selected>---Select a City---</option>
-										<option value="karachi">Karachi</option>
-									</select>
-								</div> -->
 							</div>
 							<div class="form-group">
 								<label>Address</label>

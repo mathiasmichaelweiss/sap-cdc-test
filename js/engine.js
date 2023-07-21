@@ -50,7 +50,7 @@ var currentUser = null;
  * Loads the configuration file into the window object to be used later on to customize the UI
  */
 function initDemoSite() {
-    // log('0. Init Demo site');
+    // Start
     // Read configuration file and load it
     fetch('./config/site.json')
         .then((res) => { return res.json(); })
@@ -72,12 +72,6 @@ function loadConfigFromFile(out) {
     // 0. Store config in window global (:-s)
     if (logConfigFile === true) {
         console.table(out);
-    }
-
-    // 1. Get proper language
-    const storedLanguage = getLanguage();
-    if (storedLanguage !== null) {
-        out.lang = storedLanguage;
     }
 
     log("2. Check URL Params  ");
@@ -162,20 +156,45 @@ function loadConfigFromFile(out) {
     loadGigyaForApiKey(apiKey);
 }
 
+function redirectToSSO() {
+    console.log('redirect to SSO');
+
+    // gigya.hasSession().then(function(sessionExist) {
+    //     if(sessionExist) {
+    //       gigya.sso.continue();
+    //     } else {
+    //       showLogin();
+    //       gigya.accounts.addEventHandlers(
+    //        {
+    //          onLogin: function() {
+    //            gigya.sso.continue()
+    //          }
+    //       })
+    //     }
+    // })
+
+    gigya.sso.login(
+            {
+                authFlow: 'redirect',
+                redirectURL: 'http://127.0.0.1:5500/index.html',
+                context: {
+                    useChildContext: true
+            }
+        }
+    );
+}
+
 /**
  * Set all UI conponents using the configuration object and the state of the user
  * @param {object} user User object
  */
 function initPage(user) {
-    // First, we render the navbar from file, and once loaded, we start with all the rest of the renders
     log("2. Render UI.");
-
-    // Show the loading modal
-    // showModal("loading");
 
     // Store user as global variable to be user later (not ideal :S)
     currentUser = user;
 
+    // my function
     if (window.location.pathname === "/account.html") {
         setUserProfileForm()
         document.querySelector('.checkout-form').addEventListener('submit', e => updateAccount(e))
@@ -184,136 +203,19 @@ function initPage(user) {
     if (!user || !user.UID) {
         log("3. You are not logged in.");
         console.log("3. You are not logged in.");
+        redirectToSSO()
         // gotoUnloggedPage();
         hideFooterWidgets();
     } else {
         log("3. You are logged in.");
         console.log("3. You are logged in.");
         // console.log(currentUser);
-        showLoggedHTML(user);
+        showLoggedHTML();
         // hideFooterWidgets();
     }
 
-    const path = "./html/skeleton/navbar.html";
-    // fetch(path)
-    //     .then((res) => {
-    //         return res.text();
-    //     })
-    //     .then((out) => {
-    //         // With the html of the nabvar loaded, we start rendering all elements
-
-    //         // 1. Render Navbar
-    //         renderNavbar(out);
-
-    //         // 2. Render Main site data (Title, description, image, ...)
-    //         renderMainSiteData(config);
-
-    //         // 3. Set Active language flag
-    //         setActiveLanguageFlag(config);
-
-    //         // 4. CSS from the config file
-    //         includeConfigCss(config);
-
-    //         /* If not logged, show login form */
-
-    //         // Show the loading modal
-    //         hideModal("loading");
-
-    //         if (!user || !user.UID) {
-    //             log("3. You are not logged in.");
-
-    //             /* In function of the page, show or show login page, or redirect to home */
-    //             gotoUnloggedPage();
-    //         } else {
-    //             /* If logged, show user HTML */
-    //             showLoggedHTML(user);
-
-    //             /* In function of the page, show or sample content, or edit profile */
-    //             const url = window.location.href;
-    //             if (url.indexOf("edit-profile") <= 0) {
-    //                 user.data.memberType =
-    //                     user.data.wallet.purchasedProducts && user.data.wallet.purchasedProducts < 5 ?
-    //                     "Standard" :
-    //                     "Golden";
-    //                 user.data.since = user.created.substr(0, 10);
-    //                 user.data.memberTypeIcon = user.data.memberType.toLowerCase();
-    //             } else {
-    //                 editProfileWithRaaS();
-    //             }
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         return console.error(err);
-    //     });
-
     document.querySelector('#logout-btn').addEventListener('click', logout)
 }
-
-/**
- * Logouts the user from the page, showing the logout modal, and the unlogged elements again
- */
-function logoutFromSite() {
-    // Clean user state
-    currentUser = null;
-
-    // Show Logging out modal, and after that, showing again logged out page
-    showModal("logging-out", function() {
-        // Remove content from div (if we need to come back again)
-        cleanSampleContent();
-
-        // Call the logout function with the callback function
-        logoutWithRaaS(gotoUnloggedPage);
-    });
-
-}
-
-// function login(params) {
-//     gigya.accounts.auth.login({
-//         accessToken: 'your_access_token',
-//         username: 'user@example.com',
-//         password: 'password',
-//         callback: function(response) {
-//             if (response.errorCode === 0) {
-//                 // Success auth
-//                 console.log('succes auth');
-//                 console.log('User data:', response.user);
-//             } else {
-//                 // Auth Error
-//                 console.error('Auth Error:', response.errorMessage);
-//             }
-//         }
-//     });
-// }
-
-// const gigya = require('gigya'); // Подключение библиотеки Gigya
-
-// // Функция для выполнения входа пользователя
-// function loginUser(email, password) {
-//   const apiKey = 'YOUR_API_KEY'; // Ваш API-ключ Customer Data Cloud
-//   const userKey = 'YOUR_USER_KEY'; // Ваш пользовательский ключ Customer Data Cloud
-
-//   const params = {
-//     apiKey: apiKey,
-//     userKey: userKey,
-//     method: 'accounts.login',
-//     loginID: email,
-//     password: password
-//   };
-
-//   gigya.accounts.apiCall(params, function (response) {
-//     if (response.errorCode === 0) {
-//       // Успешный вход пользователя
-//       console.log('Пользователь успешно вошел в систему');
-//       console.log('Данные пользователя:', response.user);
-//     } else {
-//       // Ошибка входа пользователя
-//       console.error('Ошибка входа пользователя:', response.errorMessage);
-//     }
-//   });
-// }
-
-// // Пример использования функции loginUser
-// loginUser('user@example.com', 'password');
 
 /** ***********************************************************/
 //  4. PROGRESSIVE PROFILING AND ADVANCED DATA FUNCTIONS
@@ -353,7 +255,6 @@ function purchaseProduct(element) {
                 callback: function(event) {
                     log("Product bought", "SET ACCOUNT INFO");
                     purchaseModalButton.classList.remove("is-loading");
-                    hideModal("purchase");
                     // We update the session currentUser and then send it to
                     currentUser.data.wallet.purchasedProducts = purchasedProducts;
                     currentUser.data.wallet.credits = credits;
@@ -361,21 +262,6 @@ function purchaseProduct(element) {
                 },
             });
         }
-
-        // THIS IS THE GOOD WAY!!! BACKEND
-        // const id_token = 'whatever'; // generate a token with getJWT
-        // const purchaseUrl = `https://juan.gigya-cs.com/api/cdc-starter-kit/purchase-element.php?UID=${uid}&price=${price}&id_token=${id_token}`;
-        // fetch(purchaseUrl)
-        //     .then((res) => { return res.json(); })
-        //     .then((out) => {
-        //         console.log('product purchased out :>> %o', out);
-
-        //     }).catch((err) => { return console.error(err); });
-    } else {
-
-        // Hide the modal and go to the login section of the page
-        hideModal("purchase");
-        showOrHighlightLoginScreen();
     }
 }
 
@@ -464,7 +350,7 @@ function deleteCurrentAccount() {
                     })
                     .then((out) => {
                         log("User Delete OK : " + JSON.stringify(out));
-                        logoutFromSite();
+                        // logoutFromSite();
                     })
                     .catch((err) => {
                         return console.error(err);

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- gigya -->
+    <script src="https://cdns.gigya.com/js/gigya.js?apiKey=4_Hqe8RIL5z3qMDiAMVFwSIQ"></script>
+    <script type="text/javascript" lang="javascript" src="cdns.eu1.gigya.com/js/gigya.js?apikey=4_Hqe8RIL5z3qMDiAMVFwSIQ"></script>
+
+    <script>
+        function initModuleParams(screenSet, containerID) {
+            return {
+                screenSet,
+                containerID,
+                onAfterScreenLoad: function (event) {
+                    console.log('Modal success');
+                },
+                onAfterSubmit: function (event) {
+                    console.log('Success');
+                    location.reload();
+                },
+                onError: function (event) {
+                    console.log('Auth Error: ' + event.errorCode);
+                    console.log(event);
+                },
+                onBeforeSubmit: function(event) {
+                    console.log(event)
+                },
+                onSubmit: function(event) {
+                    console.log(event)
+                },
+            }
+        }
+
+        gigya.accounts.showScreenSet(
+            initModuleParams(
+                'Default-RegistrationLogin', 'gigya-login-screen'
+            )
+        );
+
+        gigya.hasSession().then(function(sessionExist) {
+            if(sessionExist) {
+            gigya.sso.continue();
+            } else {
+            showLogin();
+            gigya.accounts.addEventHandlers(
+            {
+                onLogin: function() {
+                gigya.sso.continue()
+                }
+            })
+            }
+        })
+
+    </script>
+</head>
+<body>
+    <div id="gigya-login-screen"></div>
+</body>
+</html>

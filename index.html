@@ -10,41 +10,17 @@
  		<title>E-Commerce Online Shop</title>
  		<!-- Style Sheet -->
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<!-- Framework CSS -->
-		<link rel="stylesheet" type="text/css" href="css/lib/bulma-social.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/lib/core.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/demo.css" />
 		<!-- Javascript -->	
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
   		<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-  		<script>
-		    $(document).ready(function(){
-		      $('.slider').bxSlider({
-				  auto: true,
-				  autoControls: true,
-				  stopAutoOnClick: true,
-				  pager: true
-				});
-		    });
-		 </script>
-		<script type="text/javascript">
-           var ScarabQueue = ScarabQueue || [];
-            (function(subdomain, id) {
-                if (document.getElementById(id)) return;
-                var js = document.createElement('script'); js.id = id;
-                js.src = subdomain + '.scarabresearch.com/js/1648D1FB7305848E/scarab-v2.js';
-                var fs = document.getElementsByTagName('script')[0];
-                fs.parentNode.insertBefore(js, fs);
-            })('https:' == document.location.protocol ? 'https://recommender' : 'http://cdn', 'scarab-js-api');
 
-    	</script>
+		<!-- gigya -->
 		<script src="https://cdns.gigya.com/js/gigya.js?apiKey=4_Hqe8RIL5z3qMDiAMVFwSIQ"></script>
-    
+		<script type="text/javascript" lang="javascript" src="cdns.eu1.gigya.com/js/gigya.js?apikey=4_Hqe8RIL5z3qMDiAMVFwSIQ">
+		</script>
+
 		<script>
-			function checkAccount() {
-				gigya.accounts.getAccountInfo(params)
-			}
 			function initModuleParams(screenSet, containerID) {
 				return {
 					screenSet,
@@ -68,8 +44,9 @@
 					},
 				}
 			}
-			gigya.accounts.showScreenSet(initModuleParams('custom-RegistrationLogin', 'gigya-login-container'));
-			// gigya.accounts.showScreenSet(initModuleParams('custom-LiteRegistration', 'gigya-subscribe-with-email-screen'));
+
+			gigya.accounts.showScreenSet(initModuleParams('ecommerceOnlineShop-RegistrationLogin', 'gigya-login-screen'));
+			// checkAccount()
 		</script>
  	</head>
 <body>
@@ -78,7 +55,7 @@
 		<div class="container">
 			<div class="brand">
 
-				<div id="gigya-login-container" class="is-hidden not-logged login-registration-window"></div>
+				<div id="gigya-login-screen" class="is-hidden not-logged login-registration-window"></div>
 
 				<div class="logo">
 					<a href="index.html">
